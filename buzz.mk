@@ -1,5 +1,5 @@
 #
-# Copyright (C) 2011 The CyanogenMod Project
+# Copyright (C) 2009 The Android Open Source Project
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -14,12 +14,48 @@
 # limitations under the License.
 #
 
+#
+# This is the product configuration for a generic GSM buzz,
+# not specialized for any geography.
+#
+
+## (1) First, the most specific values, i.e. the aspects that are specific to GSM
+
+PRODUCT_COPY_FILES += \
+    device/htc/buzz/init.buzz.rc:root/init.buzz.rc \
+    device/htc/buzz/ueventd.buzz.rc:root/ueventd.buzz.rc
+
+PRODUCT_PROPERTY_OVERRIDES += \
+    ro.sf.lcd_density=240 \
+    rild.libpath=/system/lib/libhtc_ril.so \
+    wifi.interface=eth0 \
+    wifi.supplicant_scan_interval=15 \
+    ro.ril.hsxpa=2 \
+    ro.ril.gprsclass=12
+
+# Default network type.
+# 0 => WCDMA preferred.
+PRODUCT_PROPERTY_OVERRIDES += \
+    ro.telephony.default_network=0
+
+# The OpenGL ES API level that is natively supported by this device.
+# This is a 16.16 fixed point number
+PRODUCT_PROPERTY_OVERRIDES += \
+    ro.opengles.version=131072
+
+# This is a high density device with more memory, so larger vm heaps for it.
+PRODUCT_PROPERTY_OVERRIDES += \
+    dalvik.vm.heapsize=32m
+
+
+## (2) Also get non-open-source GSM-specific aspects if available
+$(call inherit-product-if-exists, vendor/htc/buzz/buzz-vendor.mk)
+
+PRODUCT_PROPERTY_OVERRIDES += \
+    ro.media.dec.jpeg.memcap=20000000
+
 DEVICE_PACKAGE_OVERLAYS += device/htc/buzz/overlay
 
-# Gallery 2D
-PRODUCT_PACKAGES += Gallery
-
-# Support files
 PRODUCT_COPY_FILES += \
     frameworks/base/data/etc/handheld_core_hardware.xml:system/etc/permissions/handheld_core_hardware.xml \
     frameworks/base/data/etc/android.hardware.camera.flash-autofocus.xml:system/etc/permissions/android.hardware.camera.flash-autofocus.xml \
@@ -28,48 +64,39 @@ PRODUCT_COPY_FILES += \
     frameworks/base/data/etc/android.hardware.wifi.xml:system/etc/permissions/android.hardware.wifi.xml \
     frameworks/base/data/etc/android.hardware.sensor.proximity.xml:system/etc/permissions/android.hardware.sensor.proximity.xml \
     frameworks/base/data/etc/android.hardware.sensor.light.xml:system/etc/permissions/android.hardware.sensor.light.xml \
+    frameworks/base/data/etc/android.software.sip.voip.xml:system/etc/permissions/android.software.sip.voip.xml \
     frameworks/base/data/etc/android.hardware.touchscreen.multitouch.xml:system/etc/permissions/android.hardware.touchscreen.multitouch.xml \
     frameworks/base/data/etc/android.hardware.usb.accessory.xml:system/etc/permissions/android.hardware.usb.accessory.xml \
-    frameworks/base/data/etc/android.software.sip.voip.xml:system/etc/permissions/android.software.sip.voip.xml
 
-# Media configuration xml file
+# media config xml file
 PRODUCT_COPY_FILES += \
-    device/htc/buzz/media_profiles.xml:/system/etc/media_profiles.xml
-
-PRODUCT_COPY_FILES += \
-    device/htc/buzz/init.buzz.rc:root/init.buzz.rc \
-    device/htc/buzz/ueventd.buzz.rc:root/ueventd.buzz.rc \
-    device/htc/buzz/vold.fstab:system/etc/vold.fstab
-
-# Keychars and keylayout files
-PRODUCT_COPY_FILES += \
-    device/htc/buzz/keychars/buzz-keypad.kcm.bin:system/usr/keychars/buzz-keypad.kcm.bin \
-    device/htc/buzz/keychars/qwerty.kcm.bin:system/usr/keychars/qwerty.kcm.bin \
-    device/htc/buzz/keychars/qwerty2.kcm.bin:system/usr/keychars/qwerty2.kcm.bin \
-    device/htc/buzz/keylayout/AVRCP.kl:system/usr/keylayout/AVRCP.kl \
-    device/htc/buzz/keylayout/buzz-keypad.kl:system/usr/keylayout/buzz-keypad.kl \
-    device/htc/buzz/keylayout/h2w_headset.kl:system/usr/keylayout/h2w_headset.kl \
-    device/htc/buzz/keylayout/qwerty.kl:system/usr/keylayout/qwerty.kl
-
-# Firmware
-PRODUCT_COPY_FILES += \
-    device/htc/buzz/firmware/bcm4329.hcd:system/etc/firmware/bcm4329.hcd
+    device/htc/buzz/media_profiles.xml:system/etc/media_profiles.xml
 
 PRODUCT_PACKAGES += \
-    librs_jni \
-    lights.buzz \
     sensors.buzz \
-    gralloc.buzz \
-    gps.buzz \
-    copybit.buzz \
-    libmm-omxcore \
-    libOmxCore \
-    libOmxVidEnc \
+    lights.buzz \
+    gralloc.qsd8k \
+    librs_jni \
     com.android.future.usb.accessory
 
-# Kernel Targets
+# we have enough storage space to hold precise GC data
+PRODUCT_TAGS += dalvik.gc.type-precise
+
+# Buzz uses high-density artwork where available
+PRODUCT_LOCALES := hdpi
+
+PRODUCT_COPY_FILES += \
+    device/htc/buzz/buzz-keypad.kl:system/usr/keylayout/buzz-keypad.kl \
+    device/htc/buzz/h2w_headset.kl:system/usr/keylayout/h2w_headset.kl \
+    device/htc/buzz/synaptics-rmi-touchscreen.idc:system/usr/idc/synaptics-rmi-touchscreen.idc \
+    device/htc/buzz/vold.fstab:system/etc/vold.fstab
+
+
+PRODUCT_COPY_FILES += \
+    device/htc/buzz/bcm4329.ko:system/lib/modules/bcm4329.ko
+
 ifeq ($(TARGET_PREBUILT_KERNEL),)
-LOCAL_KERNEL := device/htc/buzz/prebuilt/kernel
+LOCAL_KERNEL := device/htc/buzz/kernel
 else
 LOCAL_KERNEL := $(TARGET_PREBUILT_KERNEL)
 endif
@@ -77,17 +104,10 @@ endif
 PRODUCT_COPY_FILES += \
     $(LOCAL_KERNEL):kernel
 
-PRODUCT_COPY_FILES += \
-    device/htc/buzz/prebuilt/bcm4329.ko:system/lib/modules/bcm4329.ko
-
 $(call inherit-product-if-exists, vendor/htc/buzz/buzz-vendor.mk)
+
+# media profiles and capabilities spec
+$(call inherit-product, device/htc/buzz/media_a1026.mk)
 
 # stuff common to all HTC phones
 $(call inherit-product, device/htc/common/common.mk)
-
-$(call inherit-product, build/target/product/full_base.mk)
-
-$(call inherit-product, device/common/gps/gps_eu_supl.mk)
-
-PRODUCT_NAME := htc_buzz
-PRODUCT_DEVICE := buzz

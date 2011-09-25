@@ -1,4 +1,4 @@
-# Copyright (C) 2011 The CyanogenMod Project
+# Copyright (C) 2009 The Android Open Source Project
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -18,11 +18,16 @@
 # should be added to this file.
 #
 
-LOCAL_PATH := $(call my-dir)
-
 # Least specific includes go first, so that they can get
 # overridden further down
+
+LOCAL_PATH := $(call my-dir)
+
 include $(CLEAR_VARS)
+LOCAL_SRC_FILES := buzz-keypad.kcm
+include $(BUILD_KEY_CHAR_MAP)
+
+ALL_PREBUILT += $(INSTALLED_KERNEL_TARGET)
 
 # include the non-open-source counterpart to this file
 -include vendor/htc/buzz/AndroidBoardVendor.mk

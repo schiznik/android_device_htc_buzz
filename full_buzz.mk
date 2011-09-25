@@ -13,9 +13,18 @@
 # limitations under the License.
 
 #
-# This file lists the product definition files that define
-# configurations which are actually buildable (e.g. through lunch)
+# This file is the build configuration for a full Android
+# build for buzz hardware. This cleanly combines a set of
+# device-specific aspects (drivers) with a device-agnostic
+# product configuration (apps).
 #
 
-PRODUCT_MAKEFILES := \
-    $(LOCAL_DIR)/full_buzz.mk
+# Inherit from those products. Most specific first.
+$(call inherit-product, device/common/gps/gps_eu_supl.mk)
+$(call inherit-product, $(SRC_TARGET_DIR)/product/full.mk)
+$(call inherit-product, device/htc/buzz/buzz.mk)
+
+# Discard inherited values and use our own instead.
+PRODUCT_NAME := full_buzz
+PRODUCT_DEVICE := buzz
+PRODUCT_MODEL := Full Android on Buzz
