@@ -30,7 +30,17 @@ PRODUCT_PROPERTY_OVERRIDES += \
     rild.libpath=/system/lib/libhtc_ril.so \
     wifi.interface=eth0 \
     wifi.supplicant_scan_interval=15 \
-    ro.ril.hsxpa=2 \
+    ro.ril.ecc.HTC-WWE=999 \
+    ro.ril.ecc.HTC-ELL=92,93,94 \
+    ro.ril.enable.a52.HTC-ITA=1 \
+    ro.ril.enable.a53.HTC-ITA=1 \
+    ro.ril.enable.a52=0 \
+    ro.ril.enable.a53=1 \
+    ro.ril.vmail.23415=1571,BT \
+    ro.ril.hsdpa.category=8 \
+    ro.ril.htcmaskw1.bitmask=4294967295 \
+    ro.ril.htcmaskw1=14449 \
+    ro.ril.def.agps.mode=2 \
     ro.ril.gprsclass=12
 
 # Default network type.
@@ -41,11 +51,11 @@ PRODUCT_PROPERTY_OVERRIDES += \
 # The OpenGL ES API level that is natively supported by this device.
 # This is a 16.16 fixed point number
 PRODUCT_PROPERTY_OVERRIDES += \
-    ro.opengles.version=131072
+    ro.opengles.version=65536
 
 # This is a high density device with more memory, so larger vm heaps for it.
 PRODUCT_PROPERTY_OVERRIDES += \
-    dalvik.vm.heapsize=32m
+    dalvik.vm.heapsize=24m
 
 
 ## (2) Also get non-open-source GSM-specific aspects if available
@@ -77,18 +87,16 @@ PRODUCT_PACKAGES += \
     lights.buzz \
     gralloc.qsd8k \
     librs_jni \
+    gps.buzz \
+    copybit.buzz \
+    libmm-omxcore \
+    libOmxCore \
+    libOmxVidEnc \
     com.android.future.usb.accessory
-
-# we have enough storage space to hold precise GC data
-PRODUCT_TAGS += dalvik.gc.type-precise
-
-# Buzz uses high-density artwork where available
-PRODUCT_LOCALES := hdpi
 
 PRODUCT_COPY_FILES += \
     device/htc/buzz/buzz-keypad.kl:system/usr/keylayout/buzz-keypad.kl \
     device/htc/buzz/h2w_headset.kl:system/usr/keylayout/h2w_headset.kl \
-    device/htc/buzz/synaptics-rmi-touchscreen.idc:system/usr/idc/synaptics-rmi-touchscreen.idc \
     device/htc/buzz/vold.fstab:system/etc/vold.fstab
 
 
@@ -105,9 +113,6 @@ PRODUCT_COPY_FILES += \
     $(LOCAL_KERNEL):kernel
 
 $(call inherit-product-if-exists, vendor/htc/buzz/buzz-vendor.mk)
-
-# media profiles and capabilities spec
-$(call inherit-product, device/htc/buzz/media_a1026.mk)
 
 # stuff common to all HTC phones
 $(call inherit-product, device/htc/common/common.mk)
