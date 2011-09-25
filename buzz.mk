@@ -26,7 +26,7 @@ PRODUCT_COPY_FILES += \
     device/htc/buzz/ueventd.buzz.rc:root/ueventd.buzz.rc
 
 PRODUCT_PROPERTY_OVERRIDES += \
-    ro.sf.lcd_density=240 \
+    ro.sf.lcd_density=120 \
     rild.libpath=/system/lib/libhtc_ril.so \
     wifi.interface=eth0 \
     wifi.supplicant_scan_interval=15 \
