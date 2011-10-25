@@ -62,7 +62,11 @@ PRODUCT_PROPERTY_OVERRIDES += \
 $(call inherit-product-if-exists, vendor/htc/buzz/buzz-vendor.mk)
 
 PRODUCT_PROPERTY_OVERRIDES += \
-    ro.media.dec.jpeg.memcap=20000000
+    ro.media.dec.jpeg.memcap=20000000 
+
+# Lock dirty_ratio to 20 when USB is mounted for improved transfer speed
+PRODUCT_PROPERTY_OVERRIDES += \
+    ro.vold.umsdirtyratio=20
 
 DEVICE_PACKAGE_OVERLAYS += device/htc/buzz/overlay
 
