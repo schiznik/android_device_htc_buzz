@@ -84,7 +84,7 @@ PRODUCT_COPY_FILES += \
 # media config xml file
 PRODUCT_COPY_FILES += \
     device/htc/buzz/media_profiles.xml:system/etc/media_profiles.xml \
-    device/htc/buzz/firmware/bcm4329.hcd:system/etc/firmware/bcm4329.hcd
+    device/htc/buzz/bcm4329.hcd:system/etc/firmware/bcm4329.hcd
 
 PRODUCT_PACKAGES += \
     sensors.buzz \
