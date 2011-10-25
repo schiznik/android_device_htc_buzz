@@ -20,6 +20,17 @@
 <!-- These resources are around just to allow their values to be customized
      for different hardware and product builds. -->
 <resources>
+    <!-- Flag indicating whether the surface flinger has limited
+         alpha compositing functionality in hardware.  If set, the window
+         manager will disable alpha trasformation in animations where not
+         strictly needed. -->
+    <bool name="config_sf_limitedAlpha">true</bool>
+
+    <!-- Flag indicating whether the surface flinger is inefficient
+         at performing a blur.  Used by parts of the UI to turn off
+         the blur effect where it isn't worth the performance hit. -->
+    <bool name="config_sf_slowBlur">true</bool>
+
     <!-- Flag indicating whether we should enable the automatic brightness in Settings.
          config_hardware_automatic_brightness_available is not set, so we will use software implementation -->
     <bool name="config_automatic_brightness_available">true</bool>
@@ -27,7 +38,7 @@
     <!-- Our amoled doesn't animate well. -->
     <bool name="config_animateScreenLights">false</bool>
 
-    <!-- disable menu hard key on Bravo in non-pattern lockscreen -->
+    <!-- disable menu hard key on Buzz in non-pattern lockscreen -->
     <bool name="config_disableMenuKeyInLockScreen">true</bool>
 
     <!-- Array of light sensor LUX values to define our levels for auto backlight brightness support.
@@ -57,15 +68,15 @@
          than the size of the config_autoBrightnessLevels array.
     -->
     <integer-array name="config_autoBrightnessLcdBacklightValues">
-        <item>36</item>
-        <item>36</item>
-        <item>56</item>
-        <item>66</item>
-        <item>80</item>
-        <item>90</item>
-        <item>120</item>
-        <item>160</item>
-        <item>200</item>
+        <item>100</item>
+        <item>100</item>
+        <item>100</item>
+        <item>142</item>
+        <item>142</item>
+        <item>180</item>
+        <item>180</item>
+        <item>255</item>
+        <item>255</item>
         <item>255</item>
     </integer-array>
 
@@ -77,8 +88,8 @@
         <item>255</item>
         <item>255</item>
         <item>255</item>
-        <item>0</item>
-        <item>0</item>
+        <item>255</item>
+        <item>-1</item>
         <item>0</item>
         <item>0</item>
         <item>0</item>
@@ -89,7 +100,7 @@
     <!-- Array of output values for keyboard backlight corresponding to the LUX values
          in the config_autoBrightnessLevels array.  This array should have size one greater
          than the size of the config_autoBrightnessLevels array.
-         Bravo has no keyboard so all values are zero.
+         Buzz has no keyboard so all values are zero.
     -->
     <integer-array name="config_autoBrightnessKeyboardBacklightValues">
         <item>0</item>
