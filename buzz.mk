@@ -57,7 +57,6 @@ PRODUCT_PROPERTY_OVERRIDES += \
 PRODUCT_PROPERTY_OVERRIDES += \
     dalvik.vm.heapsize=24m
 
-
 ## (2) Also get non-open-source GSM-specific aspects if available
 $(call inherit-product-if-exists, vendor/htc/buzz/buzz-vendor.mk)
 
@@ -84,7 +83,8 @@ PRODUCT_COPY_FILES += \
 
 # media config xml file
 PRODUCT_COPY_FILES += \
-    device/htc/buzz/media_profiles.xml:system/etc/media_profiles.xml
+    device/htc/buzz/media_profiles.xml:system/etc/media_profiles.xml \
+    device/htc/buzz/firmware/bcm4329.hcd:system/etc/firmware/bcm4329.hcd
 
 PRODUCT_PACKAGES += \
     sensors.buzz \
