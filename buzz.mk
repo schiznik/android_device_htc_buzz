@@ -89,7 +89,7 @@ PRODUCT_COPY_FILES += \
 PRODUCT_PACKAGES += \
     sensors.buzz \
     lights.buzz \
-    gralloc.qsd8k \
+    gralloc.buzz \
     librs_jni \
     gps.buzz \
     copybit.buzz \

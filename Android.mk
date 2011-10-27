@@ -14,6 +14,8 @@
 
 LOCAL_PATH := $(my-dir)
 subdir_makefiles := \
+	$(LOCAL_PATH)/libcopybit/Android.mk \
+	$(LOCAL_PATH)/libgralloc/Android.mk \
 	$(LOCAL_PATH)/libsensors/Android.mk \
 	$(LOCAL_PATH)/liblights/Android.mk
 
